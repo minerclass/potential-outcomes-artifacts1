@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecological Systems Explorer — Potential Outcomes Artifact Set</title>
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .rings-wrap { display: grid; grid-template-columns: minmax(280px, 460px) 1fr; gap: 1.5rem; align-items: start; }
+  @media (max-width: 760px) { .rings-wrap { grid-template-columns: 1fr; } }
+  .ring { cursor: pointer; transition: opacity 0.15s; }
+  .ring:hover { opacity: 0.82; }
+  .ring.active { stroke: #1f2733; stroke-width: 3; }
+  .ring-label { font-size: 13px; font-weight: 700; fill: #1f2733; pointer-events: none; }
+  .chrono-arrow { cursor: pointer; }
+  #detail h2 { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .impact-meter { display: flex; gap: 4px; margin: 0.3rem 0 0.8rem; }
+  .impact-meter i { width: 26px; height: 10px; border-radius: 3px; background: var(--line); }
+  .impact-meter i.on { background: var(--accent); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <h1>Ecological Systems Explorer</h1>
+    <p class="sub">Bronfenbrenner&rsquo;s nested model, mapped to the Pedagogical Friction study. Click any ring — or the arrow of time — to see how the findings land in that system and why the exosystem is the leverage point.</p>
+    <nav>
+      <a href="index.html">Hub</a>
+      <a href="friction-audit.html">Friction Audit</a>
+      <a href="ecological-explorer.html" aria-current="page">Ecological Explorer</a>
+      <a href="dissemination-map.html">Dissemination Map</a>
+      <a href="scenario-explorer.html">Scenario Explorer</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="card">
+    <div class="rings-wrap">
+      <svg viewBox="0 0 460 500" role="img" aria-label="Bronfenbrenner nested systems diagram">
+        <!-- Macro -->
+        <circle class="ring" id="r-macro" cx="230" cy="230" r="215" fill="#dce7f3" onclick="show('macro')"/>
+        <text class="ring-label" x="230" y="40" text-anchor="middle">MACROSYSTEM — tertiary algorithmicity</text>
+        <!-- Exo -->
+        <circle class="ring" id="r-exo" cx="230" cy="240" r="165" fill="#bcd2e8" onclick="show('exo')"/>
+        <text class="ring-label" x="230" y="105" text-anchor="middle" onclick="show('exo')">EXOSYSTEM — district policy &amp; governance</text>
+        <!-- Meso -->
+        <circle class="ring" id="r-meso" cx="230" cy="252" r="118" fill="#9cbdde" onclick="show('meso')"/>
+        <text class="ring-label" x="230" y="162" text-anchor="middle" onclick="show('meso')">MESOSYSTEM — school &harr; home</text>
+        <!-- Micro -->
+        <circle class="ring" id="r-micro" cx="230" cy="266" r="72" fill="#7da8d4" onclick="show('micro')"/>
+        <text class="ring-label" x="230" y="222" text-anchor="middle" onclick="show('micro')">MICROSYSTEM — classroom</text>
+        <!-- Student -->
+        <circle class="ring" id="r-student" cx="230" cy="280" r="30" fill="#16324f" onclick="show('student')"/>
+        <text x="230" y="285" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" pointer-events="none">STUDENT</text>
+        <!-- Chronosystem arrow -->
+        <g class="chrono-arrow" id="r-chrono" onclick="show('chrono')">
+          <line x1="30" y1="478" x2="415" y2="478" stroke="#4a5568" stroke-width="3"/>
+          <polygon points="415,470 432,478 415,486" fill="#4a5568"/>
+          <text class="ring-label" x="230" y="468" text-anchor="middle">CHRONOSYSTEM — the 2022 transition &rarr;</text>
+        </g>
+      </svg>
+
+      <div id="detail">
+        <h2>Click a system to begin</h2>
+        <p class="note">The model is interactive because the argument is nested: what a student experiences in the innermost ring is conditioned by decisions made in rings the student never sees. The study&rsquo;s claim — infrastructural friction as the condition of possibility for classroom friction — is an exosystem claim.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Why rank the exosystem first?</h2>
+    <p>Three reasons, in the study&rsquo;s own logic. <strong>Authority:</strong> the exosystem is where the study&rsquo;s participants — building and district leaders — actually hold power, so findings convert most directly into action there. <strong>Mechanism:</strong> if infrastructural friction conditions the noetic, rhetorical, and existential dimensions, then changing policy, professional learning, and assessment governance makes classroom-level change sustainable rather than heroic. <strong>Honesty:</strong> the macrosystem (the media environment itself) is described by the study, not changed by it; no dissertation alters a macrosystem, but one can change how a school system responds to it.</p>
+  </div>
+</main>
+
+<footer class="site">Bronfenbrenner, U. (1979). <em>The ecology of human development.</em> Harvard University Press. &middot; Static demonstration artifact; no data collected.</footer>
+
+<script>
+const SYSTEMS = {
+  student: {
+    pill: "noetic", pillText: "The learner",
+    title: "The Student", impact: 3,
+    body: [
+      "The developing person at the center. Under tertiary algorithmicity, the student inhabits a symbolic environment where fluent text, explanation, and argument can be produced without the cognitive, rhetorical, or experiential labor those outputs traditionally signaled.",
+      "The study reaches students indirectly but deliberately: the retrospective university-student strand gives the cohort that crossed the 2022 transition a voice in describing what changed — in cognitive struggle, authorial ownership, and peer discussion — from the inside.",
+      "Findings change this ring through everything above it: assignments redesigned for visible thinking mean more discussion, more defense of ideas, more moments where the student's own reasoning is the evidence."
+    ]
+  },
+  micro: {
+    pill: "rhetorical", pillText: "Friction dimensions: noetic, rhetorical, existential",
+    title: "Microsystem — the classroom", impact: 4,
+    body: [
+      "The settings containing the student: classroom, teachers, peers. This is where friction-preserving practice either occurs or does not — generation-before-AI phases, oral defense, peer critique, authorship statements.",
+      "RQ1 lives here: how classroom-facing educators understand and navigate AI's friction-reducing affordances, and how they distinguish productive from exclusionary difficulty in real tasks (the question the Friction Audit tool operationalizes).",
+      "Impact is high but derivative: the study's central claim is that microsystem change cannot be sustained by individual teacher authority alone. That is why this ring is not ranked first."
+    ]
+  },
+  meso: {
+    pill: "existential", pillText: "Connections between settings",
+    title: "Mesosystem — school ↔ home", impact: 2,
+    body: [
+      "The connections between the student's settings — especially teacher–family communication. The leader protocols probe this directly: how well does the school communicate the difference between productive struggle and unnecessary hurdles to families?",
+      "A predictable finding pattern: parents read preserved difficulty as either rigor or unfairness depending on how it is explained. Findings would support family-facing language that frames friction as protection of learning, not nostalgia or punishment.",
+      "Also includes peer-network connections across settings — how students talk with classmates about work, which the student strand reports changed after 2022."
+    ]
+  },
+  exo: {
+    pill: "infra", pillText: "Friction dimension: infrastructural — MOST IMPACTED",
+    title: "Exosystem — district policy & governance", impact: 5,
+    body: [
+      "Settings that affect the student without containing the student: board policy, district AI guidance, procurement and vendor contracts, professional development systems, assessment governance, pacing expectations. This is precisely what the framework names infrastructural friction.",
+      "RQ2 and RQ3 land here: what institutional conditions enable or constrain friction-preserving pedagogy, and how educator sensemaking can inform AI governance. The policy moves the thought experiment proposes — naming productive struggle as a protected value, task-level rather than binary acceptable-use language, removing blanket blocks that function as exclusionary friction — are all exosystem interventions.",
+      "This is the leverage point. Students never see this ring, but it determines whether their teachers can require drafting, hold conferences, or slow a unit down without acting as institutional dissidents."
+    ]
+  },
+  macro: {
+    pill: "infra", pillText: "Described, not changed",
+    title: "Macrosystem — tertiary algorithmicity", impact: 3,
+    body: [
+      "The cultural and ideological outermost layer: a media environment in which algorithmic systems both curate and generate symbolic content, making human authorship optional at scale. Add to this the cultural scripts about efficiency, productivity, and technology-as-progress that shape what schools think AI is for.",
+      "The study impacts this ring by description rather than alteration: it supplies a vocabulary for recognizing that schools are responding to a media transition, not a tool-adoption problem. Naming the condition is the precondition for governing the response to it.",
+      "No dissertation changes a macrosystem. Claiming otherwise would be the significance inflation a committee rightly punishes."
+    ]
+  },
+  chrono: {
+    pill: "ok", pillText: "Time and transition",
+    title: "Chronosystem — the 2022 transition", impact: 4,
+    body: [
+      "Bronfenbrenner's dimension of time: how environmental transitions reorganize development. The public arrival of generative AI in late 2022 is a chronosystem event — an abrupt environmental shift that hit one cohort during a developmentally significant window.",
+      "The retrospective university-student strand is, in these terms, a chronosystem study: participants who were in grades 10–12 during 2022–2023 reconstruct pre-transition, transition, and post-transition accounts of cognitive struggle and authorship, with a protocol probe that separates AI effects from ordinary maturation.",
+      "The study also notes its own chronosystem limit: data collected before agentic AI is widely deployed in schools can only theorize, not observe, the next phase of the same transition."
+    ]
+  }
+};
+
+function show(key) {
+  document.querySelectorAll(".ring, .chrono-arrow").forEach(el => el.classList.remove("active"));
+  const el = document.getElementById("r-" + key);
+  if (el) el.classList.add("active");
+  const s = SYSTEMS[key];
+  const meter = Array.from({length: 5}, (_, i) =>
+    `<i class="${i < s.impact ? "on" : ""}"></i>`).join("");
+  document.getElementById("detail").innerHTML =
+    `<h2>${s.title} <span class="pill ${s.pill}">${s.pillText}</span></h2>
+     <div class="impact-meter" title="Directness of impact from study findings">${meter}</div>
+     <p class="note" style="margin-top:-0.4rem;">Directness of impact from the study&rsquo;s findings</p>` +
+    s.body.map(p => `<p>${p}</p>`).join("");
+}
+</script>
+</body>
+</html>

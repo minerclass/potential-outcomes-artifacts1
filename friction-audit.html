@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Friction Audit Protocol — Potential Outcomes Artifact Set</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <h1>Friction Audit Protocol</h1>
+    <p class="sub">A guided audit for any AI-touched assignment. Six questions; a verdict on whether the task preserves productive struggle, bypasses learning, or blocks access. Nothing you enter is stored or transmitted.</p>
+    <nav>
+      <a href="index.html">Hub</a>
+      <a href="friction-audit.html" aria-current="page">Friction Audit</a>
+      <a href="ecological-explorer.html">Ecological Explorer</a>
+      <a href="dissemination-map.html">Dissemination Map</a>
+      <a href="scenario-explorer.html">Scenario Explorer</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="card" id="intro">
+    <h2>Before you start</h2>
+    <p>Think of one specific assignment or assessment in which students could plausibly use generative AI — an essay, lab report, source analysis, problem set, project. The audit asks what the task was designed to do, what AI changes, and what to redesign. It operationalizes one distinction: <strong>productive friction</strong> (difficulty that builds capacity) versus <strong>exclusionary friction</strong> (difficulty that blocks access without educational benefit).</p>
+    <button class="btn" onclick="start()">Begin the audit</button>
+  </div>
+
+  <div class="card hidden" id="quiz">
+    <div class="progress" id="progress"></div>
+    <h2 id="q-title"></h2>
+    <p class="note" id="q-help"></p>
+    <div class="choice-list" id="q-choices"></div>
+    <button class="btn ghost" id="back" onclick="goBack()">Back</button>
+  </div>
+
+  <div class="card hidden" id="result">
+    <h2>Audit verdict</h2>
+    <div id="verdict-box"></div>
+    <h3 style="margin-top:1.4rem;">Design moves to consider</h3>
+    <div id="moves"></div>
+    <div id="infra-note"></div>
+    <p style="margin-top:1.4rem;">
+      <button class="btn" onclick="location.reload()">Audit another task</button>
+      <button class="btn ghost" onclick="window.print()">Print / save this verdict</button>
+    </p>
+    <p class="note">This verdict encodes the Pedagogical Friction Framework as currently theorized. It is a reflection aid for professional judgment, not a compliance instrument — the dissertation studies precisely how educators draw this line in practice.</p>
+  </div>
+</main>
+
+<footer class="site">Static demonstration artifact &middot; no data is collected, stored, or transmitted.</footer>
+
+<script>
+const QUESTIONS = [
+  {
+    title: "1. What cognitive work was this task designed to produce?",
+    help: "Name the learning, not the artifact. The essay is not the goal; the interpretation, synthesis, or argument is.",
+    choices: [
+      { t: "Interpretation, synthesis, composition, or revision — building understanding in the student's own head", v: { dim: "noetic" } },
+      { t: "Explaining, defending, or testing ideas with real people — discussion, critique, presentation", v: { dim: "rhetorical" } },
+      { t: "Taking a position and standing behind it — ownership, voice, intellectual accountability", v: { dim: "existential" } },
+      { t: "Mostly procedural or formatting work (citations, formatting, transcription, translation of directions)", v: { dim: "procedural" } }
+    ]
+  },
+  {
+    title: "2. When students use AI on this task, where does that work occur?",
+    help: "Be honest about the default case, not the ideal student.",
+    choices: [
+      { t: "Still in the student's own activity — AI touches only the edges (brainstorming, polishing, translation of directions)", v: { work: 2 } },
+      { t: "Split — AI does a real share of the generative work, the student assembles and edits", v: { work: 1 } },
+      { t: "Mostly in the model — a student could submit competent work without engaging the ideas", v: { work: 0 } }
+    ]
+  },
+  {
+    title: "3. What evidence of understanding survives if the artifact can be generated?",
+    help: "Under generative AI, a polished artifact is no longer reliable evidence of learning ('unproductive success').",
+    choices: [
+      { t: "Strong process evidence — drafts, conferences, oral defense, in-class components the student must do live", v: { evidence: 2 } },
+      { t: "Some process evidence, but the grade still rests mainly on the final product", v: { evidence: 1 } },
+      { t: "The artifact is the only evidence", v: { evidence: 0 } }
+    ]
+  },
+  {
+    title: "4. Does any difficulty in this task block access without building capacity?",
+    help: "Think about multilingual learners, students with IEPs/504s, and students without adult academic support at home.",
+    choices: [
+      { t: "Yes — language, disability, or resource barriers make the task harder in ways unrelated to the learning goal", v: { exclusion: 2 } },
+      { t: "Possibly — I have not examined the task from those students' position", v: { exclusion: 1 } },
+      { t: "No — supports and accommodations separate the learning-relevant difficulty from access barriers", v: { exclusion: 0 } }
+    ]
+  },
+  {
+    title: "5. For this task, AI use mostly removes…",
+    help: "The same tool can do both at once — translation that grants access can also flatten voice. Choose the dominant effect.",
+    choices: [
+      { t: "A barrier — it gives students access to work they can then do themselves", v: { removes: "barrier" } },
+      { t: "The learning — it performs the cognitive work the task was designed to develop", v: { removes: "learning" } },
+      { t: "Both at once — access support and cognitive bypass are tangled together", v: { removes: "both" } }
+    ]
+  },
+  {
+    title: "6. Does your policy environment let you redesign this task?",
+    help: "Pacing guides, grading expectations, parent communication, tool access, and district AI policy all shape what you can actually do.",
+    choices: [
+      { t: "Yes — I have institutional permission to slow tasks down, require process, and restrict or allow AI by phase", v: { infra: 2 } },
+      { t: "Partly — I can redesign quietly, but policy is silent and I am acting on personal authority", v: { infra: 1 } },
+      { t: "No — pacing, policy ambiguity, or expectations push me toward frictionless completion", v: { infra: 0 } }
+    ]
+  }
+];
+
+let step = 0;
+const answers = {};
+
+function start() {
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+  render();
+}
+
+function render() {
+  const q = QUESTIONS[step];
+  document.getElementById("q-title").textContent = q.title;
+  document.getElementById("q-help").textContent = q.help;
+  const box = document.getElementById("q-choices");
+  box.innerHTML = "";
+  q.choices.forEach((c) => {
+    const b = document.createElement("button");
+    b.textContent = c.t;
+    b.onclick = () => { Object.assign(answers, c.v); next(); };
+    box.appendChild(b);
+  });
+  const prog = document.getElementById("progress");
+  prog.innerHTML = "";
+  QUESTIONS.forEach((_, i) => {
+    const s = document.createElement("span");
+    if (i < step) s.classList.add("done");
+    prog.appendChild(s);
+  });
+  document.getElementById("back").style.visibility = step === 0 ? "hidden" : "visible";
+}
+
+function next() {
+  step++;
+  if (step >= QUESTIONS.length) finish(); else render();
+}
+function goBack() { if (step > 0) { step--; render(); } }
+
+function finish() {
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+
+  const a = answers;
+  let cls, title, text;
+
+  const bypassRisk = (a.work === 0 ? 2 : a.work === 1 ? 1 : 0) + (a.evidence === 0 ? 2 : a.evidence === 1 ? 1 : 0) + (a.removes === "learning" ? 2 : a.removes === "both" ? 1 : 0);
+  const exclusionRisk = (a.exclusion || 0) + (a.removes === "barrier" ? -1 : 0);
+
+  if (a.exclusion === 2 && bypassRisk <= 2) {
+    cls = "exclusionary";
+    title = "Exclusionary friction is the dominant problem";
+    text = "The cognitive design of this task is reasonably protected, but the difficulty some students face is not the difficulty the task was designed to teach. Barriers unrelated to the learning goal are doing the gatekeeping. AI supports that remove those barriers (translation, text-to-speech, scaffolded directions) are access tools here, not shortcuts — restricting them would preserve inequity, not rigor.";
+  } else if (bypassRisk >= 4) {
+    cls = "bypass";
+    title = "High cognitive-bypass risk: the output can look like learning";
+    text = "As designed, a student can produce a competent artifact while the generative work — interpreting, synthesizing, composing, revising — happens in the model rather than in the student. The artifact-as-evidence inference this task relies on is no longer trustworthy. This is the 'unproductive success' pattern: correct-looking performance without the struggle the performance normally indicates.";
+  } else if (bypassRisk >= 2 || a.exclusion === 1) {
+    cls = "";
+    title = "Mixed: partially protected, with open risks";
+    text = "Parts of this task still require the student's own cognitive work, but enough can be offloaded — or enough remains unexamined on the access side — that the verdict is unsettled. The productive-versus-exclusionary line here requires the situated judgment no protocol can fully specify; the questions below tell you where to look.";
+  } else {
+    cls = "productive";
+    title = "Productive friction is largely preserved";
+    text = "The task keeps the learning-relevant struggle in the student's own activity, retains evidence of understanding that survives generation, and separates access barriers from educational difficulty. AI use at the edges (brainstorming, polishing, access supports) augments rather than substitutes.";
+  }
+
+  document.getElementById("verdict-box").innerHTML =
+    `<div class="verdict ${cls}"><h3 style="margin:0 0 .4rem;">${title}</h3><p style="margin:0;">${text}</p></div>`;
+
+  const moves = [];
+  if ((a.work ?? 2) < 2 || a.dim === "noetic")
+    moves.push(["noetic", "The Head — protect generation", "Add a generate-before-AI phase: handwritten or in-class first attempt, retrieval practice, annotation of sources before any tool use. Ask: does schema construction still occur somewhere in the student's own activity?"]);
+  if ((a.evidence ?? 2) < 2 || a.dim === "rhetorical")
+    moves.push(["rhetorical", "The Room — restore live defense", "Attach an unscripted human moment: a two-minute conference defense of the thesis, structured peer critique requiring response to specific objections, or seminar discussion. A student who can defend a claim under questioning shows what the artifact no longer can."]);
+  if (a.removes === "learning" || a.removes === "both" || a.dim === "existential")
+    moves.push(["existential", "The World — reconnect claim and claimant", "Require an authorship statement: what is mine, what is borrowed, what did the tool shape, and which claim am I prepared to stand behind? Disclosure plus ownership, not detection."]);
+  if (a.exclusion >= 1 || a.removes === "barrier" || a.removes === "both")
+    moves.push(["existential", "The Equity Boundary — differentiate the guidance", "Write task-level AI guidance that distinguishes scaffolding from substitution for multilingual learners and students with IEPs: name which supports are access tools (always allowed) and which uses bypass the learning goal (redesigned, not just banned)."]);
+  if (moves.length === 0)
+    moves.push(["noetic", "Stress-test it", "Run the task through a current model yourself. If the output would earn the grade, the audit's optimism may rest on assumptions about student behavior rather than task design."]);
+
+  document.getElementById("moves").innerHTML = moves.map(m =>
+    `<p><span class="pill ${m[0]}">${m[1]}</span><br>${m[2]}</p>`).join("");
+
+  const infra = a.infra ?? 2;
+  document.getElementById("infra-note").innerHTML = infra === 2 ? "" :
+    `<div class="verdict" style="margin-top:1rem;"><h3 style="margin:0 0 .4rem;"><span class="pill infra">The System</span> Infrastructural constraint detected</h3><p style="margin:0;">${
+      infra === 1
+        ? "You can redesign, but only on personal authority. That is fragile: friction preservation carried against the grain of the system burns out with the teacher who carries it. Bring this audit to your team or leadership — the ask is policy language that names productive struggle as a protected value, so redesign becomes institutionally normal rather than individually heroic."
+        : "Your environment currently rewards frictionless completion, which means the classroom-level moves above are necessary but not sufficient. The leverage point is infrastructural: pacing latitude, assessment expectations that value process, and AI guidance that addresses learning — not only integrity. This is the exosystem problem the accompanying Ecological Explorer maps."
+    }</p></div>`;
+}
+</script>
+</body>
+</html>

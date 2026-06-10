@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dissemination Pipeline Map — Potential Outcomes Artifact Set</title>
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .stage-row { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.4rem; }
+  .stage {
+    background: var(--card); border: 1.5px solid var(--line); border-radius: 10px;
+    padding: 0.8rem 1.1rem; cursor: pointer; transition: border-color .15s, background .15s;
+  }
+  .stage:hover { border-color: var(--accent); }
+  .stage.open { border-color: var(--accent); background: var(--accent-soft); }
+  .stage h3 { margin: 0; font-size: 1rem; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; }
+  .stage .body { display: none; margin-top: 0.6rem; font-size: 0.92rem; }
+  .stage.open .body { display: block; }
+  .down-arrow { text-align: center; color: var(--ink-soft); font-size: 1.1rem; line-height: 1; margin: 0.1rem 0 0.5rem; }
+  .tracks { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .track { border-top: 6px solid var(--accent); }
+  .track.participant { border-color: var(--ok); }
+  .track.scholarly { border-color: var(--noetic); }
+  .track.professional { border-color: var(--rhetorical); }
+  .track.local { border-color: var(--existential); }
+  .track dt { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-soft); margin-top: 0.7rem; }
+  .track dd { margin: 0.1rem 0 0; font-size: 0.9rem; }
+  .principle { border-left: 6px solid var(--ok); background: #e9f7ee; border-radius: 0 10px 10px 0; padding: 1rem 1.2rem; }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <h1>Dissemination Pipeline Map</h1>
+    <p class="sub">From raw data to community use. Click each stage of the pipeline to expand it, then compare the four return tracks — who gets what, in which form, through which channel.</p>
+    <nav>
+      <a href="index.html">Hub</a>
+      <a href="friction-audit.html">Friction Audit</a>
+      <a href="ecological-explorer.html">Ecological Explorer</a>
+      <a href="dissemination-map.html" aria-current="page">Dissemination Map</a>
+      <a href="scenario-explorer.html">Scenario Explorer</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="card">
+    <h2>Stage 1 — What the data becomes</h2>
+    <div class="stage-row">
+      <div class="stage" onclick="this.classList.toggle('open')">
+        <h3>Raw evidence <span class="pill infra">collected</span></h3>
+        <div class="body">Educator and leader interviews, card sort placements and reasoning, institutional documents, branched survey responses (~200 educators), retrospective university-student accounts, and structural context from NCES and RAND panels. De-identified before any analysis support; participant responses stay local to the browser in the instrument suite and move only through IRB-approved secure upload.</div>
+      </div>
+      <div class="down-arrow">&#9660;</div>
+      <div class="stage" onclick="this.classList.toggle('open')">
+        <h3>Integrated findings <span class="pill infra">analyzed</span></h3>
+        <div class="body">Two-cycle thematic analysis with friction and threat code layers; descriptive and exploratory quantitative analysis; integration through joint displays recording convergence, divergence, expansion, and silence by research question. Divergence is retained as evidence, not resolved away.</div>
+      </div>
+      <div class="down-arrow">&#9660;</div>
+      <div class="stage" onclick="this.classList.toggle('open')">
+        <h3>Refined framework <span class="pill infra">tested</span></h3>
+        <div class="body">The Pedagogical Friction Framework enters as theory and exits corrected by practitioner evidence — dimensions confirmed, merged, renamed, or reordered according to what participants actually describe. The framework&rsquo;s utility is an empirical question, not a commitment the data must confirm.</div>
+      </div>
+      <div class="down-arrow">&#9660;</div>
+      <div class="stage" onclick="this.classList.toggle('open')">
+        <h3>Translated artifacts <span class="pill ok">usable</span></h3>
+        <div class="body">Plain-language criteria for distinguishing access support from cognitive bypass; assessment design patterns that reconnect product to process; policy language addressing learning science, not only integrity; PD module outlines; the friction-audit routine demonstrated in this artifact set. The community should not have to read a dissertation to benefit from one.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Stage 2 — Four return tracks</h2>
+    <div class="tracks">
+      <div class="card track participant">
+        <h3>Participant track</h3>
+        <dl>
+          <dt>Audience</dt><dd>Interview, card sort, and survey participants</dd>
+          <dt>Artifacts</dt><dd>Member-checked theme summaries during analysis; plain-language executive summary at completion</dd>
+          <dt>Channel</dt><dd>Direct return + public dissertation hub</dd>
+          <dt>Why</dt><dd>Reciprocity — recruitment through professional networks creates an obligation to return knowledge first to those who produced it</dd>
+        </dl>
+      </div>
+      <div class="card track scholarly">
+        <h3>Scholarly track</h3>
+        <dl>
+          <dt>Audience</dt><dd>Researchers in media ecology, learning sciences, AI-in-education</dd>
+          <dt>Artifacts</dt><dd>Dissertation; findings-stage article extending Miner (2026b); practitioner-adjacent journal submissions</dd>
+          <dt>Channel</dt><dd>NLU Digital Commons, peer-reviewed venues</dd>
+          <dt>Why</dt><dd>Moves the framework from conceptual argument to empirically examined contribution</dd>
+        </dl>
+      </div>
+      <div class="card track professional">
+        <h3>Professional track</h3>
+        <dl>
+          <dt>Audience</dt><dd>EdTech leaders, CTOs, instructional coaches nationally</dd>
+          <dt>Artifacts</dt><dd>Conference sessions, webinars, committee briefings, articles for member publications</dd>
+          <dt>Channel</dt><dd>ISTE, CoSN, state affiliates (IETL, ICE), regional consortia — the same networks that produced the sample</dd>
+          <dt>Why</dt><dd>Findings flow back through the channels that produced the data; the community is national because the condition is</dd>
+        </dl>
+      </div>
+      <div class="card track local">
+        <h3>Local / district track</h3>
+        <dl>
+          <dt>Audience</dt><dd>Districts, boards, building leaders, teacher teams</dd>
+          <dt>Artifacts</dt><dd>PD modules sequenced by friction dimension; policy review templates; the friction-audit protocol; family-facing language about productive struggle</dd>
+          <dt>Channel</dt><dd>Direct district adoption, consulting, open templates on the hub sites</dd>
+          <dt>Why</dt><dd>The exosystem is the leverage point — these artifacts target exactly the policy, PD, and assessment-governance layer the findings identify</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="principle">
+      <h3 style="margin-top:0;">The governing principle</h3>
+      <p style="margin-bottom:0;">Dissemination is layered to match how this community actually consumes knowledge. A superintendent will read a two-page policy brief; a teacher will use an audit routine; a researcher will read the methods chapter. Same findings, four registers — and the participants hear them first.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="site">Static demonstration artifact &middot; no data collected &middot; mirrors the dissemination plan in the accompanying thought experiment.</footer>
+</body>
+</html>

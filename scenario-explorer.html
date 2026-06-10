@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outcome Scenario Explorer — Potential Outcomes Artifact Set</title>
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  .scenario-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-bottom: 1.4rem; }
+  .scenario-btn {
+    background: var(--card); border: 1.5px solid var(--line); border-radius: 12px;
+    padding: 1.1rem 1.2rem; cursor: pointer; text-align: left; font-size: 0.95rem;
+    transition: border-color .15s, background .15s; color: var(--ink); line-height: 1.5;
+  }
+  .scenario-btn:hover { border-color: var(--accent); }
+  .scenario-btn.active { border-color: var(--accent); background: var(--accent-soft); }
+  .scenario-btn h3 { margin: 0 0 0.3rem; font-size: 1.02rem; }
+  .step { border-left: 4px solid var(--accent); padding: 0.2rem 0 0.2rem 1rem; margin: 0.9rem 0; }
+  .step b { display: block; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); }
+  .not-this { border-left-color: var(--danger); }
+  .not-this b { color: var(--danger); }
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <h1>Outcome Scenario Explorer</h1>
+    <p class="sub">A study about preserving productive struggle should expect — and welcome — findings that make the researcher struggle. Choose an outcome and see the interpretive moves the study pre-commits to.</p>
+    <nav>
+      <a href="index.html">Hub</a>
+      <a href="friction-audit.html">Friction Audit</a>
+      <a href="ecological-explorer.html">Ecological Explorer</a>
+      <a href="dissemination-map.html">Dissemination Map</a>
+      <a href="scenario-explorer.html" aria-current="page">Scenario Explorer</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="card">
+    <h2>Choose a research outcome</h2>
+    <div class="scenario-grid" id="buttons"></div>
+    <div id="panel">
+      <p class="note">Why pre-commit? Because the researcher authored the framework being examined. Stating the interpretive rules <em>before</em> the data arrive is the strongest available answer to confirmation bias — analytic flexibility chosen after seeing results is how frameworks get protected from evidence.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="site">Static demonstration artifact &middot; no data collected &middot; interpretive rules drawn from the study&rsquo;s Chapter 3 commitments (negative case analysis, joint-display integration, information power, transferability over generalization).</footer>
+
+<script>
+const SCENARIOS = {
+  null_results: {
+    label: "Results are not statistically significant",
+    desc: "e.g., no detectable difference in friction-preserving practice between policy-rich and policy-poor contexts.",
+    steps: [
+      ["Remember the design", "The quantitative strand is supporting and exploratory by design — a purposive sample, descriptive-first analysis, inferential tests only where assumptions hold. A null result was never going to carry or sink the study."],
+      ["Report with effect sizes, not just p-values", "A non-significant test is reported with its effect size and the limits of the achieved sample. 'No detectable difference at N = 137' is a statement about detection, not about the world."],
+      ["Send it to the joint display", "Under convergent-design logic, a silent or null quantitative strand placed beside rich qualitative evidence is an expansion or divergence finding (Fetters et al., 2013) — the relationship can still be examined through participant reasoning."],
+      ["Mine the non-answers", "High 'Don't know' rates on policy and PD items are substantive evidence of infrastructural ambiguity regardless of what the means do. Sometimes the finding is that nobody knows."]
+    ],
+    notThis: "Treating non-significance as proof of no relationship, or quietly dropping the analysis. Absence of evidence at this sample size is not evidence of absence."
+  },
+  unsupported: {
+    label: "The framework is not supported",
+    desc: "e.g., educator accounts don't map onto the four dimensions; EFA can't distinguish them; unsupported teachers preserve friction just as readily as supported ones.",
+    steps: [
+      ["Invoke the standing commitment", "The framework's utility is an empirical question, not a conclusion the data must confirm. This sentence exists in the proposal precisely for this scenario."],
+      ["Trust the negative case machinery", "Coding is not complete until disconfirming evidence has been actively sought — including cases where AI preserved or enhanced cognitive struggle. An unsupported framework should be discovered by the analysis, not despite it."],
+      ["Revise, don't defend", "Dimensions get merged, renamed, or reordered according to what participants actually describe. If 'infrastructural friction as condition of possibility' fails — if teachers preserve friction through professional culture rather than policy — that revision is the headline."],
+      ["Report the correction as the contribution", "A framework corrected by practitioner evidence is more useful to the field than a framework protected from it. Documenting the correction transparently is also the strongest answer to the author's acknowledged investment in his own theory."]
+    ],
+    notThis: "Explaining away mismatches as participant misunderstanding, or quietly narrowing claims until the framework becomes unfalsifiable."
+  },
+  contradicts_skeptic: {
+    label: "Findings contradict the study's own assumptions",
+    desc: "e.g., educators and students report that AI deepens engagement, scaffolds struggle, and expands access more than it bypasses learning.",
+    steps: [
+      ["Say so plainly", "If the augmentation position (Mollick, 2024) gains support in this sample, the report says so — the technoskeptical stance is a managed disposition, not a thesis the data must serve."],
+      ["Differentiate, don't capitulate", "The interesting question becomes which conditions and which uses produced augmentation rather than bypass. The framework's value relocates from diagnosis to differentiation — sharpening the productive–exclusionary boundary instead of confirming a general loss narrative."],
+      ["Check the equity reading", "Augmentation findings may be strongest for multilingual learners and students with disabilities — exactly what the exclusionary-friction concept predicts. Contradiction of the loss narrative can be confirmation of the equity boundary."],
+      ["Update the positionality account", "A technoskeptic reporting pro-AI findings against his own priors is a credibility asset. The reflexive memo trail shows the disposition was managed, not indulged."]
+    ],
+    notThis: "Reframing every positive account as social desirability bias. That move is available, must be weighed, and cannot become a universal solvent for unwelcome data."
+  },
+  contradicts_lit: {
+    label: "Findings contradict the existing literature",
+    desc: "e.g., participants describe far more policy coherence — or far less AI use — than RAND and NCES panels report.",
+    steps: [
+      ["Remember what the secondary data are for", "NCES and RAND function as structural context, not benchmarks. Participant accounts were never going to be validated against national panels — divergence between local and national is information, not error."],
+      ["Interrogate the gap", "Three live explanations: context (a purposive sample drawn from engaged professional networks skews toward policy-active districts), timing (panels lag a fast-moving condition), and construct (panels measure tool adoption; this study measures sensemaking). Each is weighed explicitly."],
+      ["Scale the claims", "A bounded interpretive case study supports transferability, not generalization (Merriam, 1998). Contradicting a national panel is not a refutation of it — it is evidence about the contexts this sample can speak to."],
+      ["Flag it for the field", "Genuine contradictions become named open questions for future research — the most generative output a dissertation can produce."]
+    ],
+    notThis: "Forcing convergence — adjusting interpretations until local accounts agree with national numbers. The joint display has a divergence verdict precisely so this never has to happen."
+  }
+};
+
+const btnBox = document.getElementById("buttons");
+Object.entries(SCENARIOS).forEach(([key, s]) => {
+  const b = document.createElement("button");
+  b.className = "scenario-btn";
+  b.id = "btn-" + key;
+  b.innerHTML = `<h3>${s.label}</h3><span class="note">${s.desc}</span>`;
+  b.onclick = () => showScenario(key);
+  btnBox.appendChild(b);
+});
+
+function showScenario(key) {
+  document.querySelectorAll(".scenario-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("btn-" + key).classList.add("active");
+  const s = SCENARIOS[key];
+  document.getElementById("panel").innerHTML =
+    `<h2 style="margin-top:1.2rem;">${s.label}</h2>` +
+    s.steps.map((st, i) =>
+      `<div class="step"><b>Move ${i + 1} — ${st[0]}</b>${st[1]}</div>`).join("") +
+    `<div class="step not-this"><b>What the study will not do</b>${s.notThis}</div>`;
+}
+</script>
+</body>
+</html>
