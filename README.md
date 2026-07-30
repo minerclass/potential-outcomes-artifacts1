@@ -1,6 +1,8 @@
 # Planning for Potential Outcomes — Interactive Artifact Set
 
-Companion artifact set for the thought experiment *Planning for Potential Outcomes: A Thought Experiment on Data Use, Dissemination, and Contingent Interpretation in the Pedagogical Friction Study* (Miner, 2026), part of the dissertation **Pedagogical Friction in the Age of Generative AI** (National Louis University, Ed.D. in Curriculum, Advocacy, and Policy).
+Companion artifact set for the thought experiment *Planning for Potential Outcomes: A Thought Experiment on Data Use, Dissemination, and Contingent Interpretation in the Pedagogical Friction Study* (Miner, 2026), part of the dissertation proposal **Pedagogical Friction in the Age of Generative AI and Tertiary Algorithmicity: A Qualitative-Dominant Convergent Mixed Methods Study** (National Louis University, Ed.D. in Curriculum, Advocacy, and Policy).
+
+> **Proposal stage.** No participant data have been collected and the study reports no findings. Every tool here is prospective: it models what *would* happen with findings, and collects nothing.
 
 ## What this is
 
@@ -40,3 +42,14 @@ These artifacts are demonstrations of *potential* outcomes — anticipated inter
 ---
 
 Micah J. Miner, CETL, Ed.S. · Director of Innovation & Technology, Beach Park District 3 · Doctoral candidate, National Louis University
+
+## License
+
+Dual-licensed to separate software from scholarship, matching the rest of the ecosystem:
+
+- **Source code** (HTML, CSS, JavaScript, configuration): [MIT License](LICENSE)
+- **Written and scholarly content** (framework descriptions, prose, figures):
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), with attribution to Micah J. Miner
+
+The Pedagogical Friction framework and its terminology are the author's scholarly work; please cite
+the dissertation and related publications when building on them.
